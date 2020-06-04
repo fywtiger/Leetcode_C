@@ -59,6 +59,7 @@ int CalAllWay(int *nums, int site, int A1, int A2, int **dp) {
     dp[A1][A2] = CalAllWay(nums, site - 1, A1 - nums[site], A2, dp) + CalAllWay(nums, site - 1, A1, A2 - nums[site], dp);
     return dp[A1][A2];
 }
+
 int CalNumsSum(int *nums, int numsSize) {
     int sum = 0;
     for (int i = 0; i < numsSize; i++) {
@@ -66,6 +67,7 @@ int CalNumsSum(int *nums, int numsSize) {
     }
     return sum;
 }
+
 int **InitAllSumDp(int A1, int A2) {
     int **dp = malloc(sizeof(int *) * (A1 + 1));
     for (int i = 0; i <= A1; i++) {
@@ -74,6 +76,7 @@ int **InitAllSumDp(int A1, int A2) {
     }
     return dp;
 }
+
 void FreeAllSumDp(int **dp, int line) {
     for (int i = 0; i <= line; i++) {
         free(dp[i]);
@@ -81,6 +84,7 @@ void FreeAllSumDp(int **dp, int line) {
     free(dp);
     return;
 }
+
 int findTargetSumWays(int *nums, int numsSize, int S) {
     int sum = CalNumsSum(nums, numsSize);
     if (sum < S || ((S + sum) % 2 != 0)) {
