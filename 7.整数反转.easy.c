@@ -39,10 +39,10 @@
  * 0。
  *
  */
-
+#include "Mylib.h"
+#define INT_MAX 2147483647
+#define INT_MIN -2147483648
 // @lc code=start
-#define MAXRIGHTVAL 2147483647
-#define MINLEFTVAL -2147483648
 int reverse(int x) {
     double val = 0;
     while (x) {
@@ -50,7 +50,7 @@ int reverse(int x) {
         x = x / 10;
     }
 
-    return (val > 2147483647 || val < MINLEFTVAL) ? 0 : (int)val;
+    return (val > INT_MAX || val < INT_MIN) ? 0 : (int)val;
 }
 
 // @lc code=end
