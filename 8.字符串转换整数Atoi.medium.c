@@ -97,7 +97,7 @@ int GetStartSite(char *str) {
     }
     return i;
 }
-double CalDoubleVal(char *str, int site, int flag) {
+double CalDoubleVal(char *str, int site) {
     double val = 0;
     while (str[site] != '\0') {
         if (str[site] >= '0' && str[site] <= '9') {
@@ -107,13 +107,13 @@ double CalDoubleVal(char *str, int site, int flag) {
         }
         break;
     }
-    return val * flag;
+    return val;
 }
 int myAtoi(char *str) {
     int site = GetStartSite(str);
     int flag = str[site] == '-' ? -1 : 1;
     site += (str[site] == '-') || (str[site] == '+') ? 1 : 0;
-    double val = CalDoubleVal(str, site, flag);
+    double val = CalDoubleVal(str, site) * flag;
     return CalRetValAtoi(val);
 }
 
