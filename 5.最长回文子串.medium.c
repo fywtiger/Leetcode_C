@@ -31,41 +31,34 @@
  */
 #include "Mylib.h"
 // @lc code=start
-
-char *GetPalindrome(char *s, int len, int lSite, int rSite) {
+typedef struct {
+    int len;
+    int startSite;
+} PALINDROMESITE;
+void GetPalindrome(char *s, int len, int lSite, int rSite, PALINDROMESITE *ret) {
     bool flag = false;
     while (lSite >= 0 && rSite <= len - 1 && s[lSite] == s[rSite]) {
         lSite--;
         rSite++;
         flag = true;
     }
-    char *str = NULL;
     if (flag) {
-        str = calloc(rSite - lSite, sizeof(char));
-        memcpy(str, &s[lSite + 1], sizeof(char) * (rSite - lSite - 1));
-    } else {
-        str = calloc(1, sizeof(char));
+        ret->startSite = ret->len < (rSite - lSite - 1) ? lSite + 1 : ret->startSite;
+        ret->len = ret->len < (rSite - lSite - 1) ? rSite - lSite - 1 : ret->len;
     }
-    return str;
-}
-char* GetPalindromeRetStr(char *str, char *pStr) {
-    if (strlen(pStr) > strlen(str)) {
-        free(str);
-        return pStr;
-    }
-    free(pStr);
-    return str;
+    return;
 }
 char *longestPalindrome(char *s) {
     int len = strlen(s);
-    char *pStr1 = NULL, *pStr2 = NULL, *str = calloc(1,sizeof(char));
+    PALINDROMESITE ret;
+    ret.len = 0;
+    ret.startSite = 0;
     for (int i = 0; i < len; i++) {
-        pStr1 = GetPalindrome(s, len, i, i);
-        pStr2 = GetPalindrome(s, len, i, i + 1);
-        str = GetPalindromeRetStr(str,pStr1);
-        str = GetPalindromeRetStr(str,pStr2);
+        GetPalindrome(s, len, i, i, &ret);
+        GetPalindrome(s, len, i, i + 1, &ret);
     }
-    return str;
+    s[ret.startSite + ret.len] = '\0';
+    return &s[ret.startSite];
 }
 
 // @lc code=end
