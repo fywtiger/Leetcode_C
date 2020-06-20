@@ -39,7 +39,6 @@
 #include "Mylib.h"
 // @lc code=start
 int InsertNumToList(int iNum, int *numList, int numListLen) {
-
     int startSite = 0;
     int endSite = numListLen - 1;
     if (iNum >= numList[endSite]) {
@@ -64,13 +63,11 @@ int InsertNumToList(int iNum, int *numList, int numListLen) {
     return nSite;
 }
 double GetMidResult(int *nums, int numsSize) {
-    double dresult = (numsSize % 2)
-                         ? (double)(nums[numsSize / 2])
-                         : ((double)nums[numsSize / 2 - 1] + (double)nums[numsSize / 2]) / 2;
+    double dresult =
+        (numsSize % 2) ? (double)(nums[numsSize / 2]) : ((double)nums[numsSize / 2 - 1] + (double)nums[numsSize / 2]) / 2;
     return dresult;
 }
-double GetMidResultEQ(int *nums, int numsSize, int nums1Size, int *nums2, int nums2Size, int inSite,
-                      int nums2Site) {
+double GetMidResultEQ(int *nums, int numsSize, int nums1Size, int *nums2, int nums2Size, int inSite, int nums2Site) {
     if ((nums1Size + nums2Size) % 2 != 0) {
         return (double)nums2[nums2Site];
     } else {
@@ -87,8 +84,7 @@ double GetMidResultEQ(int *nums, int numsSize, int nums1Size, int *nums2, int nu
         }
     }
 }
-double GetMidResultDy(int *nums, int AllMidSite, int nums1Size, int *nums2, int nums2Size,
-                      int inSite, int nums2Site) {
+double GetMidResultDy(int *nums, int AllMidSite, int nums1Size, int *nums2, int nums2Size, int inSite, int nums2Site) {
     if (0 != (nums1Size + nums2Size) % 2) {
         return (double)nums[AllMidSite];
     } else {
@@ -100,8 +96,7 @@ double GetMidResultDy(int *nums, int AllMidSite, int nums1Size, int *nums2, int 
     }
 }
 int GetMidSite(int nums1Size, int nums2Size) {
-    return (nums1Size + nums2Size) % 2 ? (nums1Size + nums2Size) / 2
-                                       : (nums1Size + nums2Size) / 2 - 1;
+    return (nums1Size + nums2Size) % 2 ? (nums1Size + nums2Size) / 2 : (nums1Size + nums2Size) / 2 - 1;
 }
 double findMedianSortedArrays(int *nums1, int nums1Size, int *nums2, int nums2Size) {
     int j, inSite, numsSize;
