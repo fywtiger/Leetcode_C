@@ -1,1 +1,1 @@
-clean.bat && mingw32-make && copy *.o obj && del *.o
+del *.exe && mingw32-make && copy *.o obj && del *.o
