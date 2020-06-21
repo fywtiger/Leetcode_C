@@ -84,7 +84,7 @@ int FindNextMaxSite4(int start, int end, int *nums) {
             return i;
         }
     }
-    return -1;
+    return 0;
 }
 int FindNextMinSite4(int start, int end, int *nums) {
     for (int i = start + 1; i < end; i++) {
