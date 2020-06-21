@@ -1,3 +1,3 @@
-del .\obj\*.o && del *.exe && del *.o
+del *.exe && del *.o && del .\obj\*.o
 
 
