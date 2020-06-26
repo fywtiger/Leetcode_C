@@ -219,6 +219,7 @@ int *findRedundantConnection(int **edges, int edgesSize, int *edgesColSize, int 
     int *visit = InitVisitArray(edgesSize);
     return GetVisitRedundantRet(edges, edgesSize, edgesColSize, returnSize, visit);
 #endif
+
 }
 
 // @lc code=end
