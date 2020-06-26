@@ -102,7 +102,7 @@ int GetTreePoint(struct TreeNode *node, int deep, int *maxDeep) {
     }
     return GetTreePoint(node->right, deep + 1, maxDeep) + GetTreePoint(node->left, deep + 1, maxDeep);
 }
-int **InitRetSum(struct TreeNode *root, int **returnColumnSizes, RETSUM *retNode) {
+int InitRetSum(struct TreeNode *root, int **returnColumnSizes, RETSUM *retNode) {
     int deep = 0;
     int point = GetTreePoint(root, 1, &deep);
     retNode->retSum = malloc(sizeof(int *) * point);
