@@ -90,8 +90,18 @@ int UpdateTreeStack(int **map, int mSize, int *stack, int sLen, int flag) {
 }
 int **InitConnectMap(int **edges, int edgesSize) {
     int **map = malloc(sizeof(int *) * edgesSize);
+    if (map == NULL) {
+        return NULL;
+    }
     for (int i = 0; i < edgesSize; i++) {
         map[i] = calloc(edgesSize, sizeof(int));
+        if (map[i] == NULL) {
+            for (int j = 0; j < i; j++) {
+                free(map[j]);
+            }
+            free(map);
+            return NULL;
+        }
     }
     for (int i = 0; i < edgesSize; i++) {
         map[edges[i][0] - 1][edges[i][1] - 1] = 1;
@@ -173,6 +183,9 @@ int *GetDsfRedundantRet(int **edges, int edgesSize, int *edgesColSize, int *retu
 #ifdef VISITRETURN
 int *InitVisitArray(int edgesSize) {
     int *visit = malloc(sizeof(int) * edgesSize);
+    if (visit == NULL) {
+        return NULL;
+    }
     for (int i = 0; i < edgesSize; i++) {
         visit[i] = i;
     }

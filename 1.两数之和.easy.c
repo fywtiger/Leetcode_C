@@ -84,6 +84,9 @@ int *MakeTwoSumRetArray(RNUMS *nums, int start, int end, int target) {
 }
 RNUMS *InitTwoSumNums(int *nums, int numsSize) {
     RNUMS *rNums = malloc(sizeof(RNUMS) * numsSize);
+    if (rNums == NULL) {
+        return NULL;
+    }
     for (int i = 0; i < numsSize; i++) {
         rNums[i].site = i;
         rNums[i].val = nums[i];
@@ -92,6 +95,10 @@ RNUMS *InitTwoSumNums(int *nums, int numsSize) {
 }
 int *twoSum(int *nums, int numsSize, int target, int *returnSize) {
     RNUMS *rNums = InitTwoSumNums(nums, numsSize);
+    if (rNums == NULL) {
+        *returnSize = 0;
+        return NULL;
+    }
     qsort(rNums, numsSize, sizeof(RNUMS), compareRNUMS);
     int *retArray = MakeTwoSumRetArray(rNums, 0, numsSize - 1, target);
     *returnSize = retArray == NULL ? 0 : 2;

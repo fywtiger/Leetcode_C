@@ -62,6 +62,9 @@ void Init(char **words, int wordsSize) {
         HASH_FIND_STR(map, words[i], s);
         if (s == NULL) {
             s = calloc(1, sizeof(WordNode));
+            if (s == NULL) {
+                return;
+            }
             s->key = words[i];
             s->cnt++;
             HASH_ADD_STR(map, key, s);
@@ -97,10 +100,25 @@ int *findSubstring(char *s, char **words, int wordsSize, int *returnSize) {
     Init(words, wordsSize);
     int len = strlen(s);
     int *res = calloc(len, sizeof(int));
+    if (res == NULL) {
+        *returnSize = 0;
+        return NULL;
+    }
     int *visit = calloc(len, sizeof(int));
+    if (visit == NULL) {
+        free(res);
+        *returnSize = 0;
+        return NULL;
+    }
     int cnt = 0;
     int wordLen = strlen(words[0]);
     char *tmp = calloc(wordLen + 1, sizeof(char));
+    if (tmp == NULL) {
+        free(visit);
+        free(res);
+        *returnSize = 0;
+        return NULL;
+    }
     WordNode *t;
     for (int i = 0; i <= len - (wordLen * wordsSize); i++) { /* 每个字母进行向后移位 */
         int j;

@@ -80,6 +80,9 @@ char *MakeRomanRetStr(int *numArray, int nLen) {
         {"M", "MM", "MMM"},
     };
     char *ret = malloc(sizeof(char) * (nLen * 4 + 1));
+    if (ret == NULL) {
+        return NULL;
+    }
     int rLen = 0;
     for (int i = nLen - 1; i >= 0; i--) {
         if (numArray[i] != 0) {
@@ -89,14 +92,14 @@ char *MakeRomanRetStr(int *numArray, int nLen) {
     }
     return ret;
 }
-char *intToRoman(int num) {    
+char *intToRoman(int num) {
     int numArray[XSITENUM];
     int nLen = 0;
     while (num != 0) {
         numArray[nLen++] = num % 10;
         num = num / 10;
     }
-    return MakeRomanRetStr(numArray,nLen);
+    return MakeRomanRetStr(numArray, nLen);
 }
 
 // @lc code=end

@@ -57,6 +57,9 @@
 // @lc code=start
 int *InitDirectVisitArray(int edgesSize) {
     int *visit = malloc(sizeof(int) * edgesSize);
+    if (visit == NULL) {
+        return NULL;
+    }
     for (int i = 0; i < edgesSize; i++) {
         visit[i] = i;
     }
@@ -90,6 +93,9 @@ int *GetDirectVisitRedundantRet(int **edges, int edgesSize, int *edgesColSize, i
 }
 int *GetRpFatherPoint(int **edges, int edgesSize, int *edgesColSize) {
     int *fatherPoint = calloc(edgesSize, sizeof(int));
+    if (fatherPoint == NULL) {
+        return NULL;
+    }
     int *ret = NULL;
     for (int i = 0; i < edgesSize; i++) {
         if (fatherPoint[edges[i][1] - 1] != 0 && fatherPoint[edges[i][1] - 1] != edges[i][0]) {
@@ -112,6 +118,10 @@ int *GetRetRpFatherPoint(int **edges, int edgesSize, int point) {
 }
 int *findRedundantDirectedConnection(int **edges, int edgesSize, int *edgesColSize, int *returnSize) {
     int *visit = InitDirectVisitArray(edgesSize);
+    if (visit == NULL) {
+        *returnSize = 0;
+        return NULL;
+    }
     int *ret = GetRpFatherPoint(edges, edgesSize, edgesColSize);
     *returnSize = ret == NULL ? 0 : edgesColSize[0];
     int *ret1 = GetDirectVisitRedundantRet(edges, edgesSize, edgesColSize, returnSize, visit);

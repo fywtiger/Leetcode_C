@@ -36,7 +36,14 @@
  */
 int **InitRetArray2(int size, int **returnColumnSizes) {
     int **retArray = malloc(sizeof(int *) * size);
+    if (retArray == NULL) {
+        return NULL;
+    }
     *returnColumnSizes = malloc(sizeof(int) * size);
+    if (*returnColumnSizes == NULL) {
+        free(retArray);
+        return NULL;
+    }
     return retArray;
 }
 int CalRetSize2(int numsSize) {
@@ -51,8 +58,10 @@ void MakePermuteArray2(int *nums, int numsSize, int site, int **retArray, int *r
     if (site == numsSize) {
         (*returnColumnSizes)[*rSize] = numsSize;
         retArray[*rSize] = malloc(sizeof(int) * numsSize);
-        memcpy(retArray[*rSize], tNums, sizeof(int) * numsSize);
-        *rSize = *rSize + 1;
+        if (retArray[*rSize] != NULL) {
+            memcpy(retArray[*rSize], tNums, sizeof(int) * numsSize);
+            *rSize = *rSize + 1;
+        }
         return;
     }
     int val = nums[0] - 1;
@@ -73,10 +82,27 @@ int ComparePermute(const void *a, const void *b) {
 int **permuteUnique(int *nums, int numsSize, int *returnSize, int **returnColumnSizes) {
     int size = CalRetSize2(numsSize);
     int **retArray = InitRetArray2(size, returnColumnSizes);
+    if (retArray == NULL) {
+        *returnSize = 0;
+        return NULL;
+    }
     qsort(nums, numsSize, sizeof(int), ComparePermute);
     int rSize = 0;
     int *tNums = malloc(sizeof(int) * numsSize);
+    if (tNums == NULL) {
+        free(retArray);
+        free(*returnColumnSizes);
+        *returnSize = 0;
+        return NULL;
+    }
     int *visit = calloc(numsSize, sizeof(int));
+    if (visit == NULL) {
+        free(tNums);
+        free(retArray);
+        free(*returnColumnSizes);
+        *returnSize = 0;
+        return NULL;
+    }
     MakePermuteArray2(nums, numsSize, 0, retArray, &rSize, returnColumnSizes, tNums, visit);
     free(tNums);
     free(visit);

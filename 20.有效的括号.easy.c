@@ -78,6 +78,9 @@ bool MatchCharFromStack(char *stack, int site, char b) {
 bool isValid(char *s) {
     int size = strlen(s);
     char *stack = calloc(size, sizeof(char));
+    if (stack == NULL) {
+        return false;
+    }
     int sLen = 0;
     for (int i = 0; i < size; i++) {
         if (StrCharIsPush(s[i])) {

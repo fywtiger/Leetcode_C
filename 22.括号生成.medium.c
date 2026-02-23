@@ -39,8 +39,10 @@
 void generate(int n, int left, int right, char **ret, char *s, int *returnSize) {
     if (left == n && right == n) {
         ret[*returnSize] = calloc(2 * n + 1, sizeof(char));
-        strcpy(ret[*returnSize], s);
-        *returnSize = *returnSize + 1;
+        if (ret[*returnSize] != NULL) {
+            strcpy(ret[*returnSize], s);
+            *returnSize = *returnSize + 1;
+        }
         return;
     }
     if (left < n) {
@@ -59,12 +61,24 @@ char **InitRetGenerateParenthesis(int n) {
         initSize *= i;
     }
     char **ret = malloc(sizeof(char *) * initSize);
+    if (ret == NULL) {
+        return NULL;
+    }
     return ret;
 }
 
 char **generateParenthesis(int n, int *returnSize) {
     char *s = calloc(2 * n + 1, sizeof(char));
+    if (s == NULL) {
+        *returnSize = 0;
+        return NULL;
+    }
     char **ret = InitRetGenerateParenthesis(n);
+    if (ret == NULL) {
+        free(s);
+        *returnSize = 0;
+        return NULL;
+    }
     *returnSize = 0; //默认是0
     generate(n, 0, 0, ret, s, returnSize);
     free(s);

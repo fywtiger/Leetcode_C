@@ -51,6 +51,9 @@ typedef struct {
     SLISTNODE *head;
     SLISTNODE *trail;
 } SLISTHEAD;
+/*
+ * 将结果节点插入到链表尾部
+ */
 void InsertSumListNode(SLISTHEAD *head, SLISTNODE *node) {
     head->num++;
     if (head->head == NULL) {
@@ -62,6 +65,9 @@ void InsertSumListNode(SLISTHEAD *head, SLISTNODE *node) {
     }
     return;
 }
+/*
+ * 将链表中的结果转换为二维数组返回
+ */
 int **InitThreeSumRetNums(SLISTHEAD *head) {
     int numsSize = head->num;
     SLISTNODE *node = head->head;
@@ -76,6 +82,10 @@ int **InitThreeSumRetNums(SLISTHEAD *head) {
 int CompaerIntThreeSum(const void *a, const void *b) {
     return *(int *)a - *(int *)b;
 }
+
+/*
+ * 从右向左查找第一个不等于val的位置（用于去重）
+ */
 int FindNextMaxSite(int start, int end, int *nums, int val) {
     for (int i = end - 1; i > start; i--) {
         if (nums[i] != val) {
@@ -84,6 +94,10 @@ int FindNextMaxSite(int start, int end, int *nums, int val) {
     }
     return -1;
 }
+
+/*
+ * 从左向右查找第一个不等于val的位置（用于去重）
+ */
 int FindNextMinSite(int start, int end, int *nums, int val) {
     for (int i = start + 1; i < end; i++) {
         if (nums[i] != val) {
@@ -92,6 +106,9 @@ int FindNextMinSite(int start, int end, int *nums, int val) {
     }
     return end + 1;
 }
+/*
+ * 创建结果节点
+ */
 SLISTNODE *InitThreeSumRetNode(int num0, int num1, int num2) {
     SLISTNODE *node = malloc(sizeof(SLISTNODE));
     node->next = NULL;
@@ -100,29 +117,43 @@ SLISTNODE *InitThreeSumRetNode(int num0, int num1, int num2) {
     node->nums[2] = num2;
     return node;
 }
+/*
+ * 双指针法查找三数之和等于0的组合
+ * start: 左指针起始位置
+ * end: 右指针起始位置
+ * sum: 第一个固定数
+ * head: 结果链表头指针
+ */
 void CalthreeSumRetNums(int *nums, int start, int end, int sum, SLISTHEAD *head) {
     if (start >= end) {
         return;
     }
     if (nums[start] + nums[end] + sum == 0) {
+        /* 找到满足条件的组合，加入结果链表 */
         SLISTNODE *node = InitThreeSumRetNode(sum, nums[start], nums[end]);
         InsertSumListNode(head, node);
+        /* 跳过重复元素 */
         start = FindNextMinSite(start, end, nums, nums[start]);
         end = FindNextMaxSite(start, end, nums, nums[end]);
         CalthreeSumRetNums(nums, start, end, sum, head);
         return;
     }
     if (nums[start] + nums[end] + sum > 0) {
+        /* 和太大，右指针左移（跳过重复元素） */
         end = FindNextMaxSite(start, end, nums, nums[end]);
         CalthreeSumRetNums(nums, start, end, sum, head);
         return;
     }
     if (nums[start] + nums[end] + sum < 0) {
+        /* 和太小，左指针右移（跳过重复元素） */
         start = FindNextMinSite(start, end, nums, nums[start]);
         CalthreeSumRetNums(nums, start, end, sum, head);
         return;
     }
 }
+/*
+ * 初始化结果链表头
+ */
 SLISTHEAD *InitThreeSumRetHead() {
     SLISTHEAD *head = malloc(sizeof(SLISTHEAD));
     head->num = 0;
@@ -130,6 +161,9 @@ SLISTHEAD *InitThreeSumRetHead() {
     head->trail = NULL;
     return head;
 }
+/*
+ * 主函数：遍历数组，固定第一个数，用双指针找另外两个数
+ */
 SLISTHEAD *MakethreeSumRetNums(int *nums, int numsSize) {
     SLISTHEAD *head = InitThreeSumRetHead();
     if (numsSize == 0) {
@@ -138,7 +172,7 @@ SLISTHEAD *MakethreeSumRetNums(int *nums, int numsSize) {
     int val = nums[0] - 1;
     for (int i = 0; i < numsSize; i++) {
         if (val < nums[i]) {
-            val = nums[i];
+            val = nums[i];  /* 跳过重复的第一个数 */
             CalthreeSumRetNums(nums, i + 1, numsSize - 1, val, head);
         }
     }
@@ -151,6 +185,9 @@ int MakeRetSumSize(int ColumnSizes, int **returnColumnSizes) {
     }
     return ColumnSizes;
 }
+/*
+ * 释放链表内存
+ */
 void FreeThreeSumMemory(SLISTHEAD *head) {
     SLISTNODE *node = head->head;
     SLISTNODE *pre = head->head;

@@ -72,9 +72,19 @@ int CalMapCol(int len, int numRows) {
 char **InitCovertMap(char *s, int mLine, int *mCol) {
     int len = strlen(s);
     char **map = malloc(sizeof(char *) * mLine);
+    if (map == NULL) {
+        return NULL;
+    }
     int col = CalMapCol(len, mLine);
     for (int i = 0; i < mLine; i++) {
         map[i] = calloc(col, sizeof(char));
+        if (map[i] == NULL) {
+            for (int j = 0; j < i; j++) {
+                free(map[j]);
+            }
+            free(map);
+            return NULL;
+        }
     }
     *mCol = col;
     return map;
@@ -120,6 +130,9 @@ void UpdateCoverMap(char *s, char **map, int mLine, int mCol) {
 char *MakeCoverRetStr(char *s, char **map, int mLine, int mCol) {
     int sLen = strlen(s);
     char *retStr = calloc(sLen + 1, sizeof(char));
+    if (retStr == NULL) {
+        return NULL;
+    }
     int rLen = 0;
     for (int i = 0; i < mLine; i++) {
         for (int j = 0; j < mCol; j++) {
@@ -137,9 +150,12 @@ char *convert(char *s, int numRows) {
     }
     int mCol;
     char **map = InitCovertMap(s, numRows, &mCol);
+    if (map == NULL) {
+        return NULL;
+    }
     UpdateCoverMap(s, map, numRows, mCol);
     char *retStr = MakeCoverRetStr(s, map, numRows, mCol);
-    FreeCoverMap(map,numRows);
+    FreeCoverMap(map, numRows);
     return retStr;
 }
 

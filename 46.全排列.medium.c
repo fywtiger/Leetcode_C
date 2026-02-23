@@ -39,10 +39,25 @@
  */
 int **InitRetArray(int size, int numsSize, int *returnSize, int **returnColumnSizes) {
     int **retArray = malloc(sizeof(int *) * size);
+    if (retArray == NULL) {
+        return NULL;
+    }
     *returnColumnSizes = malloc(sizeof(int) * size);
+    if (*returnColumnSizes == NULL) {
+        free(retArray);
+        return NULL;
+    }
     for (int i = 0; i < size; i++) {
         (*returnColumnSizes)[i] = numsSize;
         retArray[i] = malloc(sizeof(int) * numsSize);
+        if (retArray[i] == NULL) {
+            for (int j = 0; j < i; j++) {
+                free(retArray[j]);
+            }
+            free(retArray);
+            free(*returnColumnSizes);
+            return NULL;
+        }
     }
     *returnSize = size;
     return retArray;
@@ -76,6 +91,10 @@ void MakePermuteArray(int *nums, int numsSize, int site, int **retArray, int *rS
 int **permute(int *nums, int numsSize, int *returnSize, int **returnColumnSizes) {
     int size = CalRetSize(numsSize);
     int **retArray = InitRetArray(size, numsSize, returnSize, returnColumnSizes);
+    if (retArray == NULL) {
+        *returnSize = 0;
+        return NULL;
+    }
     int rSize = 0;
     MakePermuteArray(nums, numsSize, 0, retArray, &rSize);
     return retArray;
